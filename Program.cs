@@ -2,7 +2,18 @@
 
 HttpClient client = new HttpClient();
 
-string url = "https://wttr.in/Nancy?format=j1";
+
+Console.Write("Entrez le nom d'une ville : ");
+string? ville = Console.ReadLine();
+
+if (string.IsNullOrWhiteSpace(ville))
+{
+    Console.WriteLine("Vous devez entrer un nom de ville.");
+    return;
+}
+
+string url = $"https://wttr.in/{ville}?format=j1";
+
 
 string response = await client.GetStringAsync(url);
 
@@ -21,8 +32,8 @@ var current = weather.current_condition[0];
 
 Console.WriteLine($"Température actuelle : {current.temp_C}°C");
 Console.WriteLine($"Humidité : {current.humidity}%");
+Console.WriteLine($"Vent : {current.windspeedKmph} km/h");
 Console.WriteLine($"Conditions : {current.weatherDesc[0].value}");
-
 
 
 
@@ -35,6 +46,7 @@ public class CurrentCondition
 {
     public string temp_C { get; set; } = "";
     public string humidity { get; set; } = "";
+    public string windspeedKmph  { get; set; } = "";
     public List<WeatherDesc> weatherDesc { get; set; } = new();
 }
 
